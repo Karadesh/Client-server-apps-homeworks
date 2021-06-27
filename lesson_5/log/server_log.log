@@ -1,0 +1,13 @@
+
+2021-06-27 15:01:41,820 INFO server message from client: action : presence
+time : 15:1:41
+
+2021-06-27 15:01:41,821 INFO server encrypted message sended!
+2021-06-27 15:03:37,581 INFO server message from client: action : presence
+time : 15:3:37
+
+2021-06-27 15:03:37,582 INFO server encrypted message sended!
+2021-06-27 15:04:40,513 INFO server message from client: action : presence
+time : 15:4:40
+
+2021-06-27 15:04:40,514 INFO server encrypted message sended!
