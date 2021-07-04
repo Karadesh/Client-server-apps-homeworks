@@ -1,0 +1,11 @@
+
+2021-07-04 16:00:20,422 INFO server_and_client_funcs func <function time_converter at 0x7f714da32e18> is launched by client_json_dumper
+2021-07-04 16:00:20,423 INFO server message from client: action : presence
+time : 16:0:20
+
+2021-07-04 16:00:20,423 INFO server_and_client_funcs func <function time_converter at 0x7f00a3b69e18> is launched by answer_constructor
+2021-07-04 16:00:20,424 INFO server encrypted message sended!
+2021-07-04 16:00:20,424 INFO client message to server is been sended!
+2021-07-04 16:00:20,424 INFO client message from server: action : probe
+time : 16:0:20
+
