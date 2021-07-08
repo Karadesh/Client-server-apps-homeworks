@@ -48,12 +48,10 @@ def request_translator(json_data):
 
 
 def answer_constructor(json_data, json_loader):
-    json_data_loads = json.loads(json_data)
-    json_data_dict = dict(json_data_loads)
     json_reader = json_loader.read()
     json_loads = json.loads(json_reader)
     json_list = list(json_loads)
-    if json_data_dict['action'] == 'presence':
+    if json_data['action'] == 'presence':
         for i in json_list:
             if dict(i) == {"action": "probe", "time": ""}:
                 dict_request = dict(i)
@@ -62,10 +60,11 @@ def answer_constructor(json_data, json_loader):
                 request = json.dumps(dict_request)
                 return request
     # Вариант для msg
-    elif json_data_dict['action'] == 'msg':
+    elif json_data['action'] == 'msg':
         for i in json_list:
             if dict(i) == {"base": "100"}:
                 dict_request = dict(i)
+                dict_request['message'] = json_data['message']
                 request = json.dumps(dict_request)
                 return request
     # Если клиент пришлет запрос отличный от msg/presence
@@ -77,10 +76,13 @@ def answer_constructor(json_data, json_loader):
                 return request
 
 
-def client_json_dumper(json_file_open):
+def client_json_dumper(json_file_open, msg=0):
     json_reader = json_file_open.read()
     some_dict = json.loads(json_reader)
     some_dict.update({"time": time_converter()})
+    if msg != 0:
+        some_dict.update({"action": "msg"})
+        some_dict.update({"message": msg})
     request = json.dumps(some_dict)
     return request
 
