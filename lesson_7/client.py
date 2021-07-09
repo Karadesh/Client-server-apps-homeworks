@@ -6,6 +6,7 @@ import log
 import log.client_log_config
 import json
 import select
+import time
 
 logger = logging.getLogger('')
 script, ip, port = argv
@@ -27,8 +28,10 @@ def one_client():
                     logger.error('Cant send message. Json Decoder error!')
 #Сверка с запросами json-файла (пока там только один для примера)
             try:
-                taker = s.recv(100000)
+                taker = s.recv(1024)
+                print(taker)
                 try:
+                    time.sleep(2)
                     logger.info('message from server: ' + server_and_client_funcs.request_translator(taker))
                     print(server_and_client_funcs.request_translator(taker))
                 except(json.decoder.JSONDecodeError):

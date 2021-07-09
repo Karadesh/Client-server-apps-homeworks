@@ -23,7 +23,7 @@ def read_requests(r_clients, all_clients):
     responses = {}
     for s in r_clients:
         try:
-            data = s.recv(100000)
+            data = s.recv(1024)
             # транслируем инфу от клиента в удобном виде
             responses[s] = json.loads(data)
             logger.info('message from client: ' + server_and_client_funcs.request_translator(data))
@@ -36,18 +36,17 @@ def read_requests(r_clients, all_clients):
 
 
 def write_responses(requests, w_clients, all_clients):
-    for s in w_clients:
-        if s in requests:
+    for client in w_clients:
+        if client in requests:
             try:
-                try:
-                    with open('probe.json') as json_opener:
-                        resp = requests[s]
-                        #print(resp)
-                        for i in w_clients:
-                            s.send(server_and_client_funcs.answer_constructor(resp, json_opener).encode('utf-8'))
-                        logger.info('encrypted message sended!')
-                except(json.decoder.JSONDecodeError):
-                    logger.error('Json decode Error!')
+                resp = requests[client]
+                for s in w_clients:
+                    try:
+                        with open('probe.json') as json_opener:
+                            s.sendall(server_and_client_funcs.answer_constructor(resp, json_opener).encode('utf-8'))
+                            logger.info('encrypted message sended!')
+                    except:
+                        pass
             except:
                 print('client {} {} is disconnected'.format(s.fileno(), s.getpeername()))
                 s.close()
@@ -80,7 +79,7 @@ def main():
             w = []
             try:
                 r, w, e = select.select(clients, clients, [], wait)
-            except:
+            except Exception as e:
                 pass
             requests = read_requests(r, clients)
             if requests:
